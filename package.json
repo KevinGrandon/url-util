@@ -12,7 +12,7 @@
     "url": "https://github.com/kevingrandon/urlutil.js/issues"
   },
   "engines": {
-    "node": "0.12.1"
+    "node": ">= 4.0.0"
   },
   "devDependencies": {
     "gulp": "^3.8.11",
