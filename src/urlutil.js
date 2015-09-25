@@ -25,7 +25,8 @@ export default class UrlUtil {
     // - scheme + ':' (ex. http:)
     // - scheme + '://' (ex. http://)
     // - null
-    return (rscheme.exec(input) || [])[0];
+    let scheme = (rscheme.exec(input) || [])[0];
+    return scheme === 'localhost:' ? null : scheme;
   }
 
   /**
@@ -44,13 +45,13 @@ export default class UrlUtil {
    */
   static isNotURL(input) {
     // for cases, ?abc and "a? b" which should searching query
-    var case1Reg = /^(\?)|(\?.+\s)/;
+    const case1Reg = /^(\?)|(\?.+\s)/;
     // for cases, pure string
-    var case2Reg = /[\?\.\s\:]/;
+    const case2Reg = /[\?\.\s\:]/;
     // for cases, data:uri and view-source:uri
-    var case3Reg = /^(data|view-source)\:/;
+    const case3Reg = /^\w+\:.*/;
 
-    var str = input.trim();
+    let str = input.trim();
     if (case1Reg.test(str) || !case2Reg.test(str) ||
         this.getScheme(str) === str) {
       return true;
@@ -65,7 +66,7 @@ export default class UrlUtil {
     }
 
     try {
-      var url = new URL(str);
+      let url = new URL(str);
       return !url;
     } catch(e) {
       return true;
