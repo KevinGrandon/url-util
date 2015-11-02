@@ -35,15 +35,16 @@ define(['exports', 'module'], function (exports, module) {
        * @returns {String} The found scheme.
        */
       value: function getScheme(input) {
-        // This function returns one of followings
+        // This function returns one of following:
         // - scheme + ':' (ex. http:)
         // - scheme + '://' (ex. http://)
         // - null
-        return (rscheme.exec(input) || [])[0];
+        var scheme = (rscheme.exec(input) || [])[0];
+        return scheme === 'localhost:' ? null : scheme;
       }
 
       /**
-       * Checks if an input has a scheme (like http:// ftp://).
+       * Checks if an input has a scheme (e.g., http:// or ftp://).
        * @param {String} input The input value.
        * @returns {Boolean} Whether or not the input has a scheme.
        */
@@ -54,24 +55,19 @@ define(['exports', 'module'], function (exports, module) {
       }
 
       /**
-       * Checks if a string is not a url.
+       * Checks if a string is not a URL.
        * @param {String} input The input value.
-       * @returns {Boolean} Returns true if this is not a valid url.
+       * @returns {Boolean} Returns true if this is not a valid URL.
        */
     }, {
       key: 'isNotURL',
       value: function isNotURL(input) {
-        // in bug 904731, we use <input type='url' value=''> to
-        // validate url. However, there're still some cases
-        // need extra validation. We'll remove it til bug fixed
-        // for native form validation.
-        //
         // for cases, ?abc and "a? b" which should searching query
         var case1Reg = /^(\?)|(\?.+\s)/;
         // for cases, pure string
         var case2Reg = /[\?\.\s\:]/;
         // for cases, data:uri and view-source:uri
-        var case3Reg = /^(data|view-source)\:/;
+        var case3Reg = /^\w+\:.*/;
 
         var str = input.trim();
         if (case1Reg.test(str) || !case2Reg.test(str) || this.getScheme(str) === str) {
@@ -80,8 +76,9 @@ define(['exports', 'module'], function (exports, module) {
         if (case3Reg.test(str)) {
           return false;
         }
-        // require basic scheme before form validation
+
         if (!this.hasScheme(str)) {
+          // No scheme? Prepend to test as a full URL below.
           str = defaultScheme + str;
         }
 
@@ -94,9 +91,9 @@ define(['exports', 'module'], function (exports, module) {
       }
 
       /**
-       * Converts an input string into a url.
+       * Converts an input string into a URL.
        * @param {String} input The input value.
-       * @returns {String} The formatted url.
+       * @returns {String} The formatted URL.
        */
     }, {
       key: 'getUrlFromInput',
@@ -116,9 +113,9 @@ define(['exports', 'module'], function (exports, module) {
       }
 
       /**
-       * Checks if a given input is a valid url.
-       * @param {String} input The input url.
-       * @returns {Boolean} Whether or not this is a valid url.
+       * Checks if a given input is a valid URL.
+       * @param {String} input The input URL.
+       * @returns {Boolean} Whether or not this is a valid URL.
        */
     }, {
       key: 'isURL',
@@ -127,9 +124,9 @@ define(['exports', 'module'], function (exports, module) {
       }
 
       /**
-       * Checks if a url is a view-source url.
-       * @param {String} input The input url.
-       * @returns {Boolean} Whether or not this is a view-source url.
+       * Checks if a URL is a view-source URL.
+       * @param {String} input The input URL.
+       * @returns {Boolean} Whether or not this is a view-source URL.
        */
     }, {
       key: 'isViewSourceUrl',
@@ -174,9 +171,9 @@ define(['exports', 'module'], function (exports, module) {
       }
 
       /**
-       * Converts a url into a view-source url.
-       * @param {String} input The input url.
-       * @returns {String} The view-source url.
+       * Converts a URL into a view-source URL.
+       * @param {String} input The input URL.
+       * @returns {String} The view-source URL.
        */
     }, {
       key: 'getViewSourceUrlFromUrl',
@@ -185,13 +182,13 @@ define(['exports', 'module'], function (exports, module) {
           return input;
         }
 
-        // Normalizes the actual url before the view-source: scheme like prefix.
-        return 'view-source:' + getUrlFromViewSourceUrl(input);
+        // Normalizes the actual URL before the view-source: scheme like prefix.
+        return 'view-source:' + this.getUrlFromViewSourceUrl(input);
       }
 
       /**
-       * Extracts the hostname or returns undefined
-       * @param {String} input The input url.
+       * Extracts the hostname or returns undefined.
+       * @param {String} input The input URL.
        * @returns {String} The host name.
        */
     }, {

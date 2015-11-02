@@ -45,7 +45,7 @@ Extracts the scheme from a value.
 
 <a name="module_UrlUtil..UrlUtil.hasScheme"></a>
 #### UrlUtil.hasScheme(input) ⇒ <code>Boolean</code>
-Checks if an input has a scheme (like http:// ftp://).
+Checks if an input has a scheme (e.g., http:// or ftp://).
 
 **Kind**: static method of <code>[UrlUtil](#module_UrlUtil..UrlUtil)</code>  
 **Returns**: <code>Boolean</code> - Whether or not the input has a scheme.  
@@ -56,10 +56,10 @@ Checks if an input has a scheme (like http:// ftp://).
 
 <a name="module_UrlUtil..UrlUtil.isNotURL"></a>
 #### UrlUtil.isNotURL(input) ⇒ <code>Boolean</code>
-Checks if a string is not a url.
+Checks if a string is not a URL.
 
 **Kind**: static method of <code>[UrlUtil](#module_UrlUtil..UrlUtil)</code>  
-**Returns**: <code>Boolean</code> - Returns true if this is not a valid url.  
+**Returns**: <code>Boolean</code> - Returns true if this is not a valid URL.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -67,10 +67,10 @@ Checks if a string is not a url.
 
 <a name="module_UrlUtil..UrlUtil.getUrlFromInput"></a>
 #### UrlUtil.getUrlFromInput(input) ⇒ <code>String</code>
-Converts an input string into a url.
+Converts an input string into a URL.
 
 **Kind**: static method of <code>[UrlUtil](#module_UrlUtil..UrlUtil)</code>  
-**Returns**: <code>String</code> - The formatted url.  
+**Returns**: <code>String</code> - The formatted URL.  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -78,25 +78,25 @@ Converts an input string into a url.
 
 <a name="module_UrlUtil..UrlUtil.isURL"></a>
 #### UrlUtil.isURL(input) ⇒ <code>Boolean</code>
-Checks if a given input is a valid url.
+Checks if a given input is a valid URL.
 
 **Kind**: static method of <code>[UrlUtil](#module_UrlUtil..UrlUtil)</code>  
-**Returns**: <code>Boolean</code> - Whether or not this is a valid url.  
+**Returns**: <code>Boolean</code> - Whether or not this is a valid URL.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| input | <code>String</code> | The input url. |
+| input | <code>String</code> | The input URL. |
 
 <a name="module_UrlUtil..UrlUtil.isViewSourceUrl"></a>
 #### UrlUtil.isViewSourceUrl(input) ⇒ <code>Boolean</code>
-Checks if a url is a view-source url.
+Checks if a URL is a view-source URL.
 
 **Kind**: static method of <code>[UrlUtil](#module_UrlUtil..UrlUtil)</code>  
-**Returns**: <code>Boolean</code> - Whether or not this is a view-source url.  
+**Returns**: <code>Boolean</code> - Whether or not this is a view-source URL.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| input | <code>String</code> | The input url. |
+| input | <code>String</code> | The input URL. |
 
 <a name="module_UrlUtil..UrlUtil.isDataUrl"></a>
 #### UrlUtil.isDataUrl(input) ⇒ <code>Boolean</code>
@@ -133,23 +133,23 @@ Converts a view-source url into a standard url.
 
 <a name="module_UrlUtil..UrlUtil.getViewSourceUrlFromUrl"></a>
 #### UrlUtil.getViewSourceUrlFromUrl(input) ⇒ <code>String</code>
-Converts a url into a view-source url.
+Converts a URL into a view-source URL.
 
 **Kind**: static method of <code>[UrlUtil](#module_UrlUtil..UrlUtil)</code>  
-**Returns**: <code>String</code> - The view-source url.  
+**Returns**: <code>String</code> - The view-source URL.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| input | <code>String</code> | The input url. |
+| input | <code>String</code> | The input URL. |
 
 <a name="module_UrlUtil..UrlUtil.getHostname"></a>
 #### UrlUtil.getHostname(input) ⇒ <code>String</code>
-Extracts the hostname or returns undefined
+Extracts the hostname or returns undefined.
 
 **Kind**: static method of <code>[UrlUtil](#module_UrlUtil..UrlUtil)</code>  
 **Returns**: <code>String</code> - The host name.  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| input | <code>String</code> | The input url. |
+| input | <code>String</code> | The input URL. |
 

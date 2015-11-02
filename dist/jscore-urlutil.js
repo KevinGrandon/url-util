@@ -66,15 +66,16 @@ export default class UrlUtil {
    * @returns {String} The found scheme.
    */
   static getScheme(input) {
-    // This function returns one of followings
+    // This function returns one of following:
     // - scheme + ':' (ex. http:)
     // - scheme + '://' (ex. http://)
     // - null
-    return (rscheme.exec(input) || [])[0];
+    let scheme = (rscheme.exec(input) || [])[0];
+    return scheme === 'localhost:' ? null : scheme;
   }
 
   /**
-   * Checks if an input has a scheme (like http:// ftp://).
+   * Checks if an input has a scheme (e.g., http:// or ftp://).
    * @param {String} input The input value.
    * @returns {Boolean} Whether or not the input has a scheme.
    */
@@ -83,24 +84,19 @@ export default class UrlUtil {
   }
 
   /**
-   * Checks if a string is not a url.
+   * Checks if a string is not a URL.
    * @param {String} input The input value.
-   * @returns {Boolean} Returns true if this is not a valid url.
+   * @returns {Boolean} Returns true if this is not a valid URL.
    */
   static isNotURL(input) {
-    // in bug 904731, we use <input type='url' value=''> to
-    // validate url. However, there're still some cases
-    // need extra validation. We'll remove it til bug fixed
-    // for native form validation.
-    //
     // for cases, ?abc and "a? b" which should searching query
-    var case1Reg = /^(\?)|(\?.+\s)/;
+    const case1Reg = /^(\?)|(\?.+\s)/;
     // for cases, pure string
-    var case2Reg = /[\?\.\s\:]/;
+    const case2Reg = /[\?\.\s\:]/;
     // for cases, data:uri and view-source:uri
-    var case3Reg = /^(data|view-source)\:/;
+    const case3Reg = /^\w+\:.*/;
 
-    var str = input.trim();
+    let str = input.trim();
     if (case1Reg.test(str) || !case2Reg.test(str) ||
         this.getScheme(str) === str) {
       return true;
@@ -108,13 +104,14 @@ export default class UrlUtil {
     if (case3Reg.test(str)) {
       return false;
     }
-    // require basic scheme before form validation
+
     if (!this.hasScheme(str)) {
+      // No scheme? Prepend to test as a full URL below.
       str = defaultScheme + str;
     }
 
     try {
-      var url = new URL(str);
+      let url = new URL(str);
       return !url;
     } catch(e) {
       return true;
@@ -122,9 +119,9 @@ export default class UrlUtil {
   }
 
   /**
-   * Converts an input string into a url.
+   * Converts an input string into a URL.
    * @param {String} input The input value.
-   * @returns {String} The formatted url.
+   * @returns {String} The formatted URL.
    */
   static getUrlFromInput(input) {
     input = input.trim();
@@ -142,18 +139,18 @@ export default class UrlUtil {
   }
 
   /**
-   * Checks if a given input is a valid url.
-   * @param {String} input The input url.
-   * @returns {Boolean} Whether or not this is a valid url.
+   * Checks if a given input is a valid URL.
+   * @param {String} input The input URL.
+   * @returns {Boolean} Whether or not this is a valid URL.
    */
   static isURL(input) {
     return !this.isNotURL(input);
   }
 
   /**
-   * Checks if a url is a view-source url.
-   * @param {String} input The input url.
-   * @returns {Boolean} Whether or not this is a view-source url.
+   * Checks if a URL is a view-source URL.
+   * @param {String} input The input URL.
+   * @returns {Boolean} Whether or not this is a view-source URL.
    */
   static isViewSourceUrl(url) {
     return url.toLowerCase().startsWith('view-source:');
@@ -190,22 +187,22 @@ export default class UrlUtil {
   }
 
   /**
-   * Converts a url into a view-source url.
-   * @param {String} input The input url.
-   * @returns {String} The view-source url.
+   * Converts a URL into a view-source URL.
+   * @param {String} input The input URL.
+   * @returns {String} The view-source URL.
    */
   static getViewSourceUrlFromUrl(input) {
     if (this.isViewSourceUrl(input)) {
       return input;
     }
 
-    // Normalizes the actual url before the view-source: scheme like prefix.
-    return 'view-source:' + getUrlFromViewSourceUrl(input);
+    // Normalizes the actual URL before the view-source: scheme like prefix.
+    return 'view-source:' + this.getUrlFromViewSourceUrl(input);
   }
 
   /**
-   * Extracts the hostname or returns undefined
-   * @param {String} input The input url.
+   * Extracts the hostname or returns undefined.
+   * @param {String} input The input URL.
    * @returns {String} The host name.
    */
   static getHostname(input) {
