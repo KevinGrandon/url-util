@@ -152,7 +152,7 @@ export default class UrlUtil {
     }
 
     // Normalizes the actual URL before the view-source: scheme like prefix.
-    return 'view-source:' + getUrlFromViewSourceUrl(input);
+    return 'view-source:' + this.getUrlFromViewSourceUrl(input);
   }
 
   /**
